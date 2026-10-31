@@ -3,7 +3,7 @@
 All notable changes to NativeNetworkEngine are documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com).
 
-## [1.0.0] — 2026-10-31
+## [1.0.1] — 2026-10-31
 
 ### Added
 - Initial release

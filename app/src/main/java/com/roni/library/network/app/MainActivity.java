@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(HttpResponse response) {
                 runOnUiThread(() -> {
-                    String statusText = "NativeNetworkEngine v1.0.0 Ready!\n\n" +
+                    String statusText = "NativeNetworkEngine v1.0.1 Ready!\n\n" +
                             "Network: " + connType.getValue() + " (" + quality.getLabel() + ")\n" +
                             "HTTP Status: " + response.getStatusCode() + "\n" +
                             "HTTP Body: " + response.getBody() + "\n" +
