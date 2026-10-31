@@ -1,0 +1,94 @@
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
+
+android {
+    namespace 'com.roni.library.network'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName "1.0.0"
+        consumerProguardFiles "consumer-rules.pro"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            matchingFallbacks = ['release']
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lint {
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.annotation:annotation:1.7.0'
+    api 'com.github.infoadmstudio2020-cyber:NativeRuntimeContracts:v1.0.1'
+    implementation 'com.github.infoadmstudio2020-cyber:NativeServiceSDK:1.0.1'
+    testImplementation 'com.github.infoadmstudio2020-cyber:NativeLoggerSDK:1.0.1'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.findByName('release') ?: components.findByName('java') ?: components.findByName('default')
+                groupId    = 'com.roni.library.network'
+                artifactId = 'native-network-engine'
+                version    = '1.0.0'
+
+                pom {
+                    name        = 'NativeNetworkEngine'
+                    description = 'Network communication, connection pooling, SSL pinning, and file transfer engine.'
+                    url         = 'https://github.com/infoadmstudio2020-cyber/native-network-engine'
+                    licenses {
+                        license {
+                            name = 'Apache-2.0'
+                        }
+                    }
+                    developers {
+                        developer {
+                            name = 'infoadmstudio2020-cyber'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Configure task ordering without circular or recursive execution
+    tasks.matching { it.name in ['publishToMavenLocal', 'publishReleasePublicationToMavenLocal'] }.configureEach {
+        mustRunAfter(tasks.matching { it.name == 'assembleRelease' })
+    }
+
+    // Protect Javadoc generation from doclint failures on JDK 17
+    tasks.withType(Javadoc).configureEach {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.encoding = 'UTF-8'
+    }
+}
