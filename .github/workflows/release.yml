@@ -1,3 +1,4 @@
+
 name: Release
 
 permissions:
@@ -10,7 +11,9 @@ on:
 
 jobs:
   release:
+    name: Build and Publish Release
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -40,19 +43,27 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Release AAR
-        run: |
-          ./gradlew clean :native-network-engine:assembleRelease --stacktrace || {
-            echo "Module task :native-network-engine:assembleRelease failed or not found. Checking available tasks..."
-            if ./gradlew tasks --all 2>/dev/null | grep -E "\bassembleRelease\b"; then
-              ./gradlew clean assembleRelease --stacktrace
-            else
-              ./gradlew clean build --stacktrace
-            fi
-          }
+        run: ./gradlew clean :native-network-engine:assembleRelease --stacktrace
 
-      - name: Create Release
+      - name: Build Release APK
+        run: ./gradlew :app:assembleRelease --stacktrace
+
+      - name: Verify Release Artifacts
+        run: |
+          echo "Checking generated release files..."
+
+          find native-network-engine/build/outputs/aar -name "*.aar"
+          find app/build/outputs/apk/release -name "*.apk"
+
+          test -n "$(find native-network-engine/build/outputs/aar -name '*.aar' -print -quit)"
+          test -n "$(find app/build/outputs/apk/release -name '*.apk' -print -quit)"
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          name: Release
+          generate_release_notes: true
+          fail_on_unmatched_files: true
           files: |
             native-network-engine/build/outputs/aar/*.aar
             app/build/outputs/apk/release/*.apk
