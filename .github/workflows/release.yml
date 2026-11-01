@@ -1,3 +1,4 @@
+
 name: Release
 
 permissions:
@@ -10,7 +11,7 @@ on:
 
 jobs:
   release:
-    name: Build and Publish Release
+    name: Build, Test and Publish Release
     runs-on: ubuntu-latest
 
     steps:
@@ -25,30 +26,43 @@ jobs:
 
       - name: Accept Android SDK licenses
         run: |
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses 2>/dev/null || yes | sdkmanager --licenses 2>/dev/null || true
+          yes | sdkmanager --licenses || true
 
-      - name: Grant execute permission for gradlew
+      - name: Grant execute permission
         run: chmod +x gradlew
 
       - name: Clean Project
         run: ./gradlew clean --stacktrace
 
-      - name: Build Release AAR and APK
-        run: |
-          ./gradlew :native-network-engine:assembleRelease :app:assembleRelease --stacktrace || \
-          ./gradlew :native-network-engine:assembleRelease :app:assembleDebug --stacktrace || \
-          ./gradlew :native-network-engine:assembleRelease --stacktrace
-
       - name: Run Unit Tests
+        run: ./gradlew :native-network-engine:testDebugUnitTest --stacktrace
+
+      - name: Build Release AAR
+        run: ./gradlew :native-network-engine:assembleRelease --stacktrace
+
+      - name: Build Debug APK
+        run: ./gradlew :app:assembleDebug --stacktrace
+
+      - name: Build Release APK
+        run: ./gradlew :app:assembleRelease --stacktrace
+
+      - name: Verify Build Outputs
         run: |
-          ./gradlew :native-network-engine:test --stacktrace || true
+          echo "=== AAR ==="
+          find native-network-engine/build/outputs/aar -type f -name "*.aar"
+
+          echo "=== APK ==="
+          find app/build/outputs/apk -type f -name "*.apk"
+
+          test -n "$(find native-network-engine/build/outputs/aar -name '*.aar' -print -quit)"
+          test -n "$(find app/build/outputs/apk -name '*.apk' -print -quit)"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           name: Release ${{ github.ref_name }}
           generate_release_notes: true
-          fail_on_unmatched_files: false
+          fail_on_unmatched_files: true
           files: |
             native-network-engine/build/outputs/aar/*.aar
             app/build/outputs/apk/release/*.apk
