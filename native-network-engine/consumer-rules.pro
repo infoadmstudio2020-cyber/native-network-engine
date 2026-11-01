@@ -1,5 +1,11 @@
 # Consumer ProGuard rules for NativeNetworkEngine
--keep class com.roni.library.network.** { *; }
+-keep public class com.roni.library.network.** { public *; }
 -keep interface com.roni.library.network.** { *; }
 -keep enum com.roni.library.network.** { *; }
-
+-keep class com.roni.library.network.http.** { *; }
+-keep class com.roni.library.network.monitor.** { *; }
+-keep class com.roni.library.network.ws.** { *; }
+-keep class com.roni.library.network.service.** { *; }
+-keep class com.roni.library.network.handler.** { *; }
+-keep class com.roni.library.network.NativeNetworkEngineResult { *; }
+-keep class com.roni.library.network.NativeNetworkEngineConfig { *; }

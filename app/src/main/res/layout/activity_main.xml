@@ -1,19 +1,345 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F8F9FA"
+    android:fillViewport="true">
 
-    <TextView
-        android:id="@+id/tv_status"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Initializing…"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="NativeNetworkEngine Explorer"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#1E293B" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="v1.0.2 • Layer 2 Domain Engine • Production Ready"
+            android:textSize="12sp"
+            android:textColor="#64748B"
+            android:paddingBottom="12dp" />
+
+        <!-- Dashboard Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="NETWORK DASHBOARD"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:textColor="#0284C7"
+                android:paddingBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Status: INITIALIZING..."
+                android:textSize="14sp"
+                android:textColor="#059669"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_dashboard_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Connection: DETECTING... • Bandwidth: UNKNOWN"
+                android:textSize="11sp"
+                android:textColor="#475569"
+                android:paddingTop="2dp" />
+        </LinearLayout>
+
+        <!-- Feature 1: HTTP Client & Dispatcher -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. HTTP CLIENT &amp; DISPATCHER"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:textColor="#1E293B" />
+
+            <EditText
+                android:id="@+id/et_http_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Endpoint URL"
+                android:textSize="13sp"
+                android:text="https://api.example.com/v1/ping" />
+
+            <EditText
+                android:id="@+id/et_http_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="JSON Payload (optional)"
+                android:textSize="13sp"
+                android:text="{\"action\":\"health_check\",\"client\":\"AndroidApp\"}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btn_http_get"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="GET Request"
+                    android:textSize="11sp" />
+
+                <Button
+                    android:id="@+id/btn_http_post"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="POST Request"
+                    android:textSize="11sp" />
+
+                <Button
+                    android:id="@+id/btn_http_burst"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Burst x5"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_http_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Response: Ready"
+                android:textSize="11sp"
+                android:textColor="#334155"
+                android:paddingTop="4dp" />
+        </LinearLayout>
+
+        <!-- Feature 2: Network Monitor & Simulator -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2. NETWORK MONITOR &amp; SIMULATOR"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:textColor="#1E293B" />
+
+            <TextView
+                android:id="@+id/tv_monitor_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Current: WIFI • EXCELLENT"
+                android:textSize="12sp"
+                android:textColor="#0284C7"
+                android:paddingTop="2dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btn_sim_wifi"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Simulate WIFI"
+                    android:textSize="11sp" />
+
+                <Button
+                    android:id="@+id/btn_sim_cellular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Simulate 4G"
+                    android:textSize="11sp" />
+
+                <Button
+                    android:id="@+id/btn_sim_offline"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Simulate Offline"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Feature 3: WebSocket Client -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3. WEBSOCKET REAL-TIME CLIENT"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:textColor="#1E293B" />
+
+            <EditText
+                android:id="@+id/et_ws_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="WS Endpoint"
+                android:textSize="13sp"
+                android:text="wss://echo.example.com" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btn_ws_connect"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Connect WS"
+                    android:textSize="11sp" />
+
+                <Button
+                    android:id="@+id/btn_ws_send"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Send Ping"
+                    android:textSize="11sp" />
+
+                <Button
+                    android:id="@+id/btn_ws_close"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Disconnect"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_ws_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="WS State: DISCONNECTED"
+                android:textSize="11sp"
+                android:textColor="#334155"
+                android:paddingTop="2dp" />
+        </LinearLayout>
+
+        <!-- Feature 4: Integration Test Center -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="INTEGRATION TEST CENTER"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:textColor="#B91C1C" />
+
+            <Button
+                android:id="@+id/btn_run_tests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Run All Network Engine Tests"
+                android:backgroundTint="#B91C1C"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/tv_test_summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tests Not Executed Yet."
+                android:textSize="12sp"
+                android:fontFamily="monospace"
+                android:paddingTop="6dp" />
+        </LinearLayout>
+
+        <!-- Runtime Console -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E293B"
+            android:padding="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="RUNTIME CONSOLE LOG"
+                    android:textColor="#38BDF8"
+                    android:textStyle="bold"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/btn_clear_log"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clear Log"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_console_log"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="#0F172A"
+                android:textColor="#E2E8F0"
+                android:fontFamily="monospace"
+                android:textSize="11sp"
+                android:padding="8dp"
+                android:scrollbars="vertical"
+                android:text="[Console Ready] Waiting for user actions...\n" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
