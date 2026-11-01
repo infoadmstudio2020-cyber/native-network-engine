@@ -3,7 +3,7 @@
 All notable changes to NativeNetworkEngine are documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com).
 
-## [1.0.2] — 2026-11-01
+## [1.0.3] — 2026-11-01
 
 ### Added
 - Upgraded companion demonstration app to a complete interactive testing application with Dashboard, HTTP Explorer, Network Simulator, WebSocket client, Test Center, and Live Console.

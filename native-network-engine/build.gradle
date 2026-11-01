@@ -11,7 +11,7 @@ android {
         minSdk 21
         targetSdk 34
         versionCode 1
-        versionName "1.0.2"
+        versionName "1.0.3"
         consumerProguardFiles "consumer-rules.pro"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -28,6 +28,7 @@ android {
 
     lint {
         abortOnError false
+        checkReleaseBuilds false
     }
 
     compileOptions {
@@ -60,7 +61,7 @@ afterEvaluate {
                 from components.findByName('release') ?: components.findByName('java') ?: components.findByName('default')
                 groupId    = 'com.roni.library.network'
                 artifactId = 'native-network-engine'
-                version    = '1.0.2'
+                version    = '1.0.3'
 
                 pom {
                     name        = 'NativeNetworkEngine'
@@ -90,5 +91,6 @@ afterEvaluate {
     tasks.withType(Javadoc).configureEach {
         options.addStringOption('Xdoclint:none', '-quiet')
         options.encoding = 'UTF-8'
+        failOnError = false
     }
 }

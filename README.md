@@ -1,6 +1,6 @@
 # NativeNetworkEngine (Layer 2 Domain Engine)
 
-[![Release](https://img.shields.io/badge/Release-v1.0.2-blue.svg)](https://github.com/infoadmstudio2020-cyber/native-network-engine/releases)
+[![Release](https://img.shields.io/badge/Release-v1.0.3-blue.svg)](https://github.com/infoadmstudio2020-cyber/native-network-engine/releases)
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg)](https://android-arsenal.com/api?level=21)
 [![License](https://img.shields.io/badge/License-Apache-2.0-blue.svg)](LICENSE)
 [![Architecture](https://img.shields.io/badge/Architecture-NativeRuntime%20L2-orange.svg)](#architecture)
@@ -77,7 +77,7 @@ dependencyResolutionManagement {
 dependencies {
     implementation 'com.github.infoadmstudio2020-cyber:NativeRuntimeContracts:v1.0.1'
     implementation 'com.github.infoadmstudio2020-cyber:NativeServiceSDK:1.0.1'
-    implementation 'com.github.infoadmstudio2020-cyber:native-network-engine:1.0.2'
+    implementation 'com.github.infoadmstudio2020-cyber:native-network-engine:1.0.3'
 }
 ```
 
