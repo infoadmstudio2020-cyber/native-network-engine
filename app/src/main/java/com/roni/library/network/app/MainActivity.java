@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
         HttpRequest.Builder builder = HttpRequest.builder()
                 .setUrl(url)
                 .setMethod(method)
-                .addHeader("User-Agent", "NativeNetworkEngine-Demo/1.0.3");
+                .addHeader("User-Agent", "NativeNetworkEngine-Demo/1.0.4");
 
         if (method == HttpMethod.POST && !body.isEmpty()) {
             builder.setBody(body);
