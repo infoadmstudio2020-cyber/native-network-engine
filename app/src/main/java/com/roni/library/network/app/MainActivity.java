@@ -118,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
             tvConsoleLog.setText(logBuffer.toString());
         }
     }
-
     private void initNetworkEngine() {
         try {
             NativeNetworkEngineConfig config = NativeNetworkEngineConfig.builder()
@@ -130,32 +129,68 @@ public class MainActivity extends AppCompatActivity {
                     .maxRetries(3)
                     .build();
 
-            NativeNetworkEngineResult<Boolean> res = NativeNetworkEngine.getInstance().init(this, config);
-            boolean initialized = NativeNetworkEngine.getInstance().isInitialized();
+            NativeNetworkEngine engine = NativeNetworkEngine.getInstance();
+
+            // init() returns void. Check initialization through isInitialized().
+            engine.init(this, config);
+
+            boolean initialized = engine.isInitialized();
+
+            if (!initialized) {
+                if (tvStatus != null) {
+                    tvStatus.setText("Status: INIT FAILED");
+                }
+                log("NativeNetworkEngine initialization failed.");
+                return;
+            }
 
             if (tvStatus != null) {
-                tvStatus.setText(initialized ? "Status: READY (ACTIVE)" : "Status: INIT FAILED (" + res.getErrorMessage() + ")");
+                tvStatus.setText("Status: READY (ACTIVE)");
             }
+
             log("NativeNetworkEngine initialized successfully.");
 
-            // Configure Mock Transport for safe offline exploratory execution
-            NativeNetworkEngine.getInstance().getHttpClient().setMockTransport(request -> {
-                String method = request.getMethod() != null ? request.getMethod().name() : "GET";
-                String body = "{\"status\":200,\"method\":\"" + method + "\",\"url\":\"" + request.getUrl() + "\",\"timestamp\":" + System.currentTimeMillis() + "}";
+            // Configure mock transport for safe offline demonstration.
+            engine.getHttpClient().setMockTransport(request -> {
+                String method = request.getMethod() != null
+                        ? request.getMethod().name()
+                        : "GET";
+
+                String body = "{\"status\":200,\"method\":\"" + method
+                        + "\",\"url\":\"" + request.getUrl()
+                        + "\",\"timestamp\":" + System.currentTimeMillis() + "}";
+
                 return new HttpResponse(200, null, body, 18);
             });
 
-            // Listen to Network Monitor
-            NativeNetworkEngine.getInstance().getNetworkMonitor().addListener((type, quality, connected) -> {
-                runOnUiThread(() -> {
-                    String stateText = "Current: " + type + " • " + quality + " (Connected: " + connected + ")";
-                    if (tvMonitorState != null) tvMonitorState.setText(stateText);
-                    log("Network state changed -> " + stateText);
+            // Register network monitor listener.
+            NetworkMonitor monitor = engine.getNetworkMonitor();
+
+            if (monitor != null) {
+                monitor.addListener((type, quality, connected) -> {
+                    runOnUiThread(() -> {
+                        String stateText = "Current: " + type
+                                + " • " + quality
+                                + " (Connected: " + connected + ")";
+
+                        if (tvMonitorState != null) {
+                            tvMonitorState.setText(stateText);
+                        }
+
+                        log("Network state changed -> " + stateText);
+                    });
                 });
-            });
+            } else {
+                log("NetworkMonitor is unavailable.");
+            }
 
             updateDashboard();
+
         } catch (Exception e) {
+            if (tvStatus != null) {
+                tvStatus.setText("Status: INIT ERROR");
+            }
+
             log("Init error: " + e.getMessage());
         }
     }
@@ -182,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
         HttpRequest.Builder builder = HttpRequest.builder()
                 .setUrl(url)
                 .setMethod(method)
-                .addHeader("User-Agent", "NativeNetworkEngine-Demo/1.0.4");
+                .addHeader("User-Agent", "NativeNetworkEngine-Demo/1.0.5");
 
         if (method == HttpMethod.POST && !body.isEmpty()) {
             builder.setBody(body);
@@ -415,7 +450,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 6. NetworkMonitor State & Listener
         try {
-            NetworkMonitor monitor = new NetworkMonitor(this);
+            NetworkMonitor monitor = new NetworkMonitor();
             final AtomicBoolean notified = new AtomicBoolean(false);
             NetworkMonitor.NetworkStateListener l = (t, q, c) -> notified.set(true);
             monitor.addListener(l);

@@ -11,7 +11,7 @@ android {
         minSdk 21
         targetSdk 34
         versionCode 1
-        versionName "1.0.4"
+        versionName "1.0.5"
         consumerProguardFiles "consumer-rules.pro"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -42,6 +42,8 @@ android {
             withJavadocJar()
         }
     }
+
+    testOptions { unitTests { returnDefaultValues = true } }
 }
 
 dependencies {
@@ -61,7 +63,7 @@ afterEvaluate {
                 from components.findByName('release') ?: components.findByName('java') ?: components.findByName('default')
                 groupId    = 'com.roni.library.network'
                 artifactId = 'native-network-engine'
-                version    = '1.0.4'
+                version    = '1.0.5'
 
                 pom {
                     name        = 'NativeNetworkEngine'
@@ -94,3 +96,12 @@ afterEvaluate {
         failOnError = false
     }
 }
+
+// One-click Unit Test Runner
+tasks.register('runUnitTests') {
+    group = 'verification'
+    description = 'Runs NativeServiceSDK unit tests.'
+
+    dependsOn('testDebugUnitTest')
+}
+
